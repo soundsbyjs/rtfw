@@ -1,4 +1,4 @@
-## I will not pretend that this code is disgusting lol
+## I will not pretend that this code isn't disgusting lol
 ## I've never written python, nor have I ever used beautifulsoup before
 ## so yeah... please contribute!
 
