@@ -11,16 +11,6 @@
 import requests
 import sys
 from bs4 import BeautifulSoup
- 
-# this is kind of a bad name for this function
-# but basically it pulls out each of the sections of the article
-# under Contents and returns a list
-# it also grabs the numbers before them
-# but those numbers occur after the name
-# so the list from Vim looks like [ 'installation', '1', usage, '2' ]
-
-
-
 
 ## this one cuts up a string containing the tags for each of the 
 ## things under the wiki's "contents" header
