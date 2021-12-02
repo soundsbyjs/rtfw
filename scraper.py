@@ -1,32 +1,23 @@
-## I will not pretend that this code is disgusting lol
+## I will not pretend that this code isn't disgusting lol
 ## I've never written python, nor have I ever used beautifulsoup before
 ## so yeah... please contribute!
 
 ## usage:
-## archwiki -l [Wiki Page]
+## rtfw [Wiki Page]
 ##  lists all the sections under contents on a given wiki page
-## archwiki -v [wiki page] [section]
+## rtfw [wiki page] [section]
 ##  prints the contents of the section on the given wiki page
 
 import requests
 import sys
 from bs4 import BeautifulSoup
  
-# this is kind of a bad name for this function
-# but basically it pulls out each of the sections of the article
-# under Contents and returns a list
-# it also grabs the numbers before them
-# but those numbers occur after the name
-# so the list from Vim looks like [ 'installation', '1', usage, '2' ]
-
-
-
 
 ## this one cuts up a string containing the tags for each of the 
 ## things under the wiki's "contents" header
 ## it then writes it to a list
 ## it will also grab the numbers that appear before them 
-## (but it writes those numbers after the given title)
+## (but it writes those numbers to the list after the given title)
 
 def cutSubStringAtAHREF(string, start=None):
     if start is not None:
@@ -71,6 +62,7 @@ def cutSubStringAtAHREF(string, start=None):
 ## this guy prints the contents of the list made in the previous function
 ## again this is probably a really bad way to do this
 ## but brute forcing stuff is fun!
+
 def printContents(contents):
     print("Contents: ")
     index = 0
@@ -91,6 +83,7 @@ def printContents(contents):
 # it looks for the line containing a \n before and after [section]
 # and cuts the text out between it and the string [followingsection] meeting the same criteria
 # this function is totally broken and this is a terrible way to do this
+# and in hindsight I'm not sure how we're going to handle the last line
 def printSection(section, followingSection, pageText):
 
     index = 0
@@ -138,22 +131,22 @@ def findStringLocationInList(string, list):
 
 # int main(int argc, char* argv[]) 
 # {
-if len(sys.argv) == 3 and sys.argv[1] == '-l':
-    page = requests.get("https://wiki.archlinux.org/title/" + sys.argv[2]) # Getting page HTML through request
+if len(sys.argv) == 3:
+    page = requests.get("https://wiki.archlinux.org/title/" + sys.argv[1]) # Getting page HTML through request
     soup = BeautifulSoup(page.content, 'html.parser') # Parsing content using beautifulsoup
 
     subjects = soup.find_all('div', class_='toc')
     contents = cutSubStringAtAHREF(str(subjects))
     printContents(contents)
 # if we're printing out the contents of a section of the wiki page
-elif len(sys.argv) == 4 and sys.argv[1] == "-v":
-    page = requests.get("https://wiki.archlinux.org/title/" + sys.argv[2]) # Getting page HTML through request
+elif len(sys.argv) == 4:
+    page = requests.get("https://wiki.archlinux.org/title/" + sys.argv[1]) # Getting page HTML through request
     soup = BeautifulSoup(page.content, 'html.parser') # Parsing content using beautifulsoup
 
     subjects = soup.find_all('div', class_='toc')
     contents = cutSubStringAtAHREF(str(subjects))
      
-    contentsSection = findStringLocationInList(sys.argv[3], contents)
+    contentsSection = findStringLocationInList(sys.argv[2], contents)
     if contentsSection != 0:
         pageText = str(soup.get_text())
         printSection(contents[contentsSection - 1], contents[contentsSection + 1], pageText)
