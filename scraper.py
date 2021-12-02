@@ -131,7 +131,7 @@ def findStringLocationInList(string, list):
 
 # int main(int argc, char* argv[]) 
 # {
-if len(sys.argv) == 3:
+if len(sys.argv) == 2:
     page = requests.get("https://wiki.archlinux.org/title/" + sys.argv[1]) # Getting page HTML through request
     soup = BeautifulSoup(page.content, 'html.parser') # Parsing content using beautifulsoup
 
@@ -139,7 +139,7 @@ if len(sys.argv) == 3:
     contents = cutSubStringAtAHREF(str(subjects))
     printContents(contents)
 # if we're printing out the contents of a section of the wiki page
-elif len(sys.argv) == 4:
+elif len(sys.argv) == 3:
     page = requests.get("https://wiki.archlinux.org/title/" + sys.argv[1]) # Getting page HTML through request
     soup = BeautifulSoup(page.content, 'html.parser') # Parsing content using beautifulsoup
 
